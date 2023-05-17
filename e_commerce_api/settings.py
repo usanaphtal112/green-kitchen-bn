@@ -41,7 +41,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Local Apps
+    "accounts.apps.AccountsConfig",
+    # third party apps
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
+
+AUTH_USER_MODEL = "accounts.user"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -54,6 +61,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "e_commerce_api.urls"
+
+REST_FRAMEWORK = {
+    "NON_FIELD_ERRORS_KEY": "errors",
+}
 
 TEMPLATES = [
     {
