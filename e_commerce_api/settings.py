@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # third party apps
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_spectacular",
 ]
 
 AUTH_USER_MODEL = "accounts.user"
@@ -64,6 +65,7 @@ ROOT_URLCONF = "e_commerce_api.urls"
 
 REST_FRAMEWORK = {
     "NON_FIELD_ERRORS_KEY": "errors",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",  # new
 }
 
 TEMPLATES = [
@@ -138,3 +140,11 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "E-COMMERCE API Project",
+    "DESCRIPTION": "E-Commerce project using Django Rest Framework(DRF)",
+    "VERSION": "1.0.0",
+    # OTHER SETTINGS
+}

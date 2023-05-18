@@ -5,6 +5,7 @@ from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from .serializers import SignUpSerializer
+from drf_spectacular.utils import extend_schema
 
 # from rest_framework.views import APIView
 
@@ -18,6 +19,10 @@ class SignUpView(generics.GenericAPIView):
     serializer_class = SignUpSerializer
     permission_classes = []
 
+    @extend_schema(
+        description="Create a new user account",
+        tags=["Users"],  # Set the title here
+    )
     def post(self, request: Request):
         data = request.data
         serializer = self.serializer_class(data=data)
