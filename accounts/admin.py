@@ -22,7 +22,12 @@ class UserAdmin(BaseUserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
-    list_display = ("email", "first_name", "last_name", "phone_number", "is_staff")
+    list_display = (
+        "email",
+        "id",
+        "first_name",
+        "is_staff",
+    )
     list_filter = ("is_staff", "is_superuser")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -50,7 +55,7 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
-    search_fields = ("email", "first_name", "last_name", "phone_number")
+    search_fields = ("id", "email", "first_name", "last_name", "phone_number")
     ordering = ("email",)
 
 

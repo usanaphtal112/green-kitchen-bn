@@ -45,16 +45,18 @@ INSTALLED_APPS = [
     # Local Apps
     "accounts.apps.AccountsConfig",
     # third party apps
+    "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_spectacular",
 ]
 
-AUTH_USER_MODEL = "accounts.user"
+AUTH_USER_MODEL = "accounts.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # New
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -66,7 +68,7 @@ ROOT_URLCONF = "e_commerce_api.urls"
 
 REST_FRAMEWORK = {
     "NON_FIELD_ERRORS_KEY": "errors",
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",  # new
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
@@ -163,3 +165,7 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     # OTHER SETTINGS
 }
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
