@@ -54,33 +54,25 @@ class LoginView(APIView):
     def post(self, request: Request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        email = serializer.validated_data["email"]
-        password = serializer.validated_data["password"]
-        user = authenticate(email=email, password=password)
 
-        # email = request.data.get("email")
-        # password = request.data.get("password")
-        # user = authenticate(email=email, password=password)
-        if user is not None:
-            tokens = create_jwt_pair_for_user(user)
-            response = HttpResponse()
-            response.set_cookie(
-                key="jwt_access_token",
-                value=tokens["access"],
-                httponly=True,  # Store the access token in cookies
-            )
-            response.set_cookie(
-                key="jwt_refresh_token",
-                value=tokens["refresh"],
-                httponly=True,  # Store the refresh token in cookies
-            )
-            response = {"message": "Login Successfull", "tokens": tokens}
-            return Response(data=response, status=status.HTTP_200_OK)
-        else:
-            return Response(
-                data={"message": "Invalid email or password"},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
+        user = serializer.validated_data["user"]
+        tokens = create_jwt_pair_for_user(user)
+        response = Response(
+            data={"message": "Login Successful", "tokens": tokens},
+            status=status.HTTP_200_OK,
+        )
+        response.set_cookie(
+            key="jwt_access_token",
+            value=tokens["access"],
+            httponly=True,  # Store the access token in cookies
+        )
+        response.set_cookie(
+            key="jwt_refresh_token",
+            value=tokens["refresh"],
+            httponly=True,  # Store the refresh token in cookies
+        )
+
+        return response
 
 
 class UserListView(APIView):
