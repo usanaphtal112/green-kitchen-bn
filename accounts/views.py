@@ -9,6 +9,7 @@ from .serializers import (
     LoginSerializer,
     UserSerializer,
     UserDetailsSerializer,
+    LogoutSerializer,
 )
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
@@ -62,12 +63,12 @@ class LoginView(APIView):
             status=status.HTTP_200_OK,
         )
         response.set_cookie(
-            key="jwt_access_token",
+            key="access_token",
             value=tokens["access"],
             httponly=True,  # Store the access token in cookies
         )
         response.set_cookie(
-            key="jwt_refresh_token",
+            key="refresh_token",
             value=tokens["refresh"],
             httponly=True,  # Store the refresh token in cookies
         )
@@ -134,3 +135,35 @@ class UserDetailsView(APIView):
         serializer = UserDetailsSerializer(user)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class LogoutAPIView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return []
+
+    @extend_schema(
+        description="User logout",
+        tags=["Users"],
+        responses={status.HTTP_200_OK: None},
+    )
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        response = Response(
+            {"message": "Logout successfully"}, status=status.HTTP_204_NO_CONTENT
+        )
+
+        # Delete tokens from cookies
+        response = Response(
+            {"message": "Logout successfully"}, status=status.HTTP_204_NO_CONTENT
+        )
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+
+        return response
