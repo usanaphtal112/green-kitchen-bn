@@ -15,6 +15,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from .tokens import create_jwt_pair_for_user
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsUnauthenticated, AdminOnlyPermission
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
 
@@ -24,7 +25,7 @@ from django.contrib.auth import get_user_model
 
 class SignUpView(generics.GenericAPIView):
     serializer_class = SignUpSerializer
-    permission_classes = []
+    permission_classes = [IsUnauthenticated]
 
     @extend_schema(
         description="Create a new user account",
@@ -45,10 +46,10 @@ class SignUpView(generics.GenericAPIView):
 
 
 class LoginView(APIView):
-    permission_classes = []
+    permission_classes = [IsUnauthenticated]
 
     @extend_schema(
-        description="Create a new user account",
+        description="Login on your account",
         tags=["Users"],
         request=LoginSerializer,
     )
@@ -77,7 +78,7 @@ class LoginView(APIView):
 
 
 class UserListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, AdminOnlyPermission]
     authentication_classes = [JWTAuthentication]
     User = get_user_model()
 
@@ -116,7 +117,7 @@ class UserListView(APIView):
 
 class UserDetailsView(APIView):
     User = get_user_model()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, AdminOnlyPermission]
     authentication_classes = [JWTAuthentication]
 
     @extend_schema(

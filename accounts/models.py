@@ -36,6 +36,18 @@ class User(AbstractUser):
     email = models.EmailField(max_length=80, unique=True)
     phone_number = models.CharField(max_length=50, null=True)
 
+    BUYER = "buyer"
+    SELLER = "seller"
+    ADMIN = "admin"
+
+    ROLE_CHOICES = (
+        (BUYER, "Buyer"),
+        (SELLER, "Seller"),
+        (ADMIN, "Admin"),
+    )
+
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=BUYER)
+
     objects = CustomUserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

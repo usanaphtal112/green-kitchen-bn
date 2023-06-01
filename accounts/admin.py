@@ -26,12 +26,14 @@ class UserAdmin(BaseUserAdmin):
         "email",
         "id",
         "first_name",
+        "role",
         "is_staff",
     )
     list_filter = ("is_staff", "is_superuser")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         ("Personal Info", {"fields": ("first_name", "last_name", "phone_number")}),
+        ("Role", {"fields": ("role",)}),
         (
             "Permissions",
             {
@@ -51,7 +53,7 @@ class UserAdmin(BaseUserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
+                "fields": ("email", "password1", "password2", "role"),
             },
         ),
     )
