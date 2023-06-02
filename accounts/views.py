@@ -10,6 +10,7 @@ from .serializers import (
     UserSerializer,
     UserDetailsSerializer,
     LogoutSerializer,
+    UserProfileSerializers,
 )
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
@@ -100,13 +101,6 @@ class UserListView(APIView):
                 {"message": "Unauthenticated User"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
-        # Perform additional checks or logic based on the authenticated user(To be used soon)
-        # if not user.is_active:
-        #     raise PermissionDenied("User is not active.")
-
-        # if not user.has_perm("your_app.view_users"):
-        #     raise PermissionDenied("User does not have permission to view users.")
-
         # Retrieve all users
         users = self.User.objects.all()
 
@@ -168,3 +162,44 @@ class LogoutAPIView(generics.GenericAPIView):
         response.delete_cookie("refresh_token")
 
         return response
+
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        description="User profile",
+        tags=["Users"],
+        responses={status.HTTP_200_OK: UserProfileSerializers},
+    )
+    def get(self, request):
+        user_profile = request.user
+        serializer_class = UserProfileSerializers(user_profile)
+        return Response(serializer_class.data)
+
+    @extend_schema(
+        description="Update user profile",
+        tags=["Users"],
+        responses={status.HTTP_200_OK: UserProfileSerializers},
+        request=UserProfileSerializers,
+    )
+    def put(self, request):
+        user_profile = request.user
+        serializer_class = UserProfileSerializers(
+            user_profile, data=request.data, partial=True
+        )
+
+        if serializer_class.is_valid():
+            # Exclude the email field from updating
+            serializer_class.validated_data.pop("email", None)
+
+            if "address" not in serializer_class.validated_data:
+                return Response(
+                    {"address": ["Address field is mandatory."]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            serializer_class.save()
+            return Response(serializer_class.data)
+
+        return Response(serializer_class.errors, status=400)
