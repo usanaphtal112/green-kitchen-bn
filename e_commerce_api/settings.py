@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Local Apps
     "accounts.apps.AccountsConfig",
+    "shops.apps.ShopsConfig",
     # third party apps
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
@@ -170,3 +171,6 @@ SPECTACULAR_SETTINGS = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+
+# CSRF_TRUSTED_ORIGIN = ["http://localhost:3000"]
