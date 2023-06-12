@@ -14,6 +14,9 @@ from pathlib import Path
 from environs import Env
 from datetime import timedelta
 
+import cloudinary
+import cloudinary.uploader
+
 env = Env()
 env.read_env()
 
@@ -174,3 +177,11 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 # CSRF_TRUSTED_ORIGIN = ["http://localhost:3000"]
+
+
+# Set up Cloudinary configuration
+cloudinary.config(
+    cloud_name=env.str("CLOUDINARY_NAME"),
+    api_key=env.str("CLOUDINARY_API_KEY"),
+    api_secret=env.str("CLOUDINARY_SECRET_KEY"),
+)
