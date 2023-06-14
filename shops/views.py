@@ -10,8 +10,10 @@ from .serializers import (
     ProductReadSerializer,
     ProductWriteSerializer,
 )
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsSellerOrReadOnly, IsAdminRole
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from drf_spectacular.utils import extend_schema
-from django.utils.text import slugify
 
 
 @extend_schema(
@@ -19,6 +21,7 @@ from django.utils.text import slugify
     tags=["Products"],
 )
 class ProductAPIView(generics.ListCreateAPIView):
+    permission_classes = [IsSellerOrReadOnly]
     serializer_class = ProductWriteSerializer
 
     def get_serializer_class(self):
@@ -33,6 +36,13 @@ class ProductAPIView(generics.ListCreateAPIView):
             queryset = queryset.filter(category__slug=category_slug)
         return queryset
 
+    def perform_create(self, serializer):
+        user = JWTAuthentication().authenticate(self.request)[0]
+
+        # access_token = self.request.COOKIES.get("access_token")
+        # user = JWTAuthentication().get_user(access_token)
+        serializer.save(created_by=user)
+
 
 @extend_schema(
     description="Product details",
@@ -41,6 +51,7 @@ class ProductAPIView(generics.ListCreateAPIView):
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailsSerializer
+    permission_classes = [IsSellerOrReadOnly]
 
 
 @extend_schema(
@@ -50,6 +61,7 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminRole]
 
 
 @extend_schema(
@@ -59,4 +71,5 @@ class CategoryListView(generics.ListCreateAPIView):
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminRole]
     lookup_field = "slug"
