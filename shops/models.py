@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.db.models.signals import pre_save
 from django.conf import settings
 
 
@@ -44,5 +43,5 @@ class Product(models.Model):
             models.Index(fields=["-created"]),
         ]
 
-        def __str__(self):
-            return self.name
+    def __str__(self):
+        return self.name

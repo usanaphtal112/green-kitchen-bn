@@ -28,3 +28,8 @@ class IsSellerOrReadOnly(permissions.BasePermission):
 class IsAdminRole(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role == "admin"
+
+
+class IsBuyerRoleOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == "buyer"

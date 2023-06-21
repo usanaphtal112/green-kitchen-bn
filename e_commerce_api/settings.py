@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # Local Apps
     "accounts.apps.AccountsConfig",
     "shops.apps.ShopsConfig",
+    "cart.apps.CartConfig",
     # third party apps
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
@@ -186,3 +187,11 @@ cloudinary.config(
     api_key=env.str("CLOUDINARY_API_KEY"),
     api_secret=env.str("CLOUDINARY_SECRET_KEY"),
 )
+
+
+# CART_SESSION_ID = "cart"
+
+# # settings.py
+# SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+# SESSION_COOKIE_HTTPONLY = True
+# SESSION_SAVE_EVERY_REQUEST = True
