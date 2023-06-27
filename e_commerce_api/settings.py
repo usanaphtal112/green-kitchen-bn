@@ -49,10 +49,11 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "shops.apps.ShopsConfig",
     "cart.apps.CartConfig",
+    "order.apps.OrderConfig",
     # third party apps
     "corsheaders",
-    "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
     # "rest_framework.authtoken",
     "drf_spectacular",
 ]
@@ -68,6 +69,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "order.middleware.CartMiddleware",  # Custom Middleware
 ]
 
 ROOT_URLCONF = "e_commerce_api.urls"

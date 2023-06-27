@@ -13,7 +13,7 @@ from drf_spectacular.utils import extend_schema
     tags=["Cart"],
 )
 class CartView(APIView):
-    permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
+    # permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
 
     def get(self, request):
         try:
