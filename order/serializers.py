@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from shops.models import Product
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Review
 from django.db.models import F, Sum
 
 
@@ -31,3 +31,14 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ["id", "placed_at", "status", "owner", "items", "total_price"]
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "date_created", "reviewer", "description"]
+        read_only_fields = ["reviewer"]
+
+    def create(self, validated_data):
+        product_id = self.context["product_id"]
+        return Review.objects.create(product_id=product_id, **validated_data)

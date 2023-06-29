@@ -31,3 +31,15 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} (Qty: {self.quantity})"
+
+
+class Review(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="reviews"
+    )
+    reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(default="description")
+
+    def __str__(self):
+        return self.description

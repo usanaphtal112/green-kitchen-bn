@@ -1,11 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Review
 from shops.models import Product
 from shops.permissions import IsBuyerRoleOnly
+from .permissions import IsProductBuyer
 from cart.models import Cart
-from .serializers import OrderSerializer, OrderItemSerializer
+from .serializers import OrderSerializer, ReviewSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from drf_spectacular.utils import extend_schema
@@ -16,7 +17,7 @@ from drf_spectacular.utils import extend_schema
     tags=["Orders"],
 )
 class UserOrdersAPIView(APIView):
-    # permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
+    permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
 
     def get(self, request):
         orders = Order.objects.filter(owner=request.user)
@@ -56,7 +57,7 @@ class UserOrdersAPIView(APIView):
     tags=["Orders"],
 )
 class OrderDetailsAPIView(APIView):
-    # permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
+    permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
 
     def get(self, request, order_id):
         try:
@@ -93,3 +94,41 @@ class OrderDetailsAPIView(APIView):
         order.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@extend_schema(
+    description="Product Reviews",
+    tags=["Review"],
+)
+class ReviewAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsProductBuyer]
+
+    def get(self, request, product_id, format=None):
+        # Check if the product exists
+        product = get_object_or_404(Product, id=product_id)
+
+        # Retrieve all reviews related to the product
+        reviews = Review.objects.filter(product=product)
+
+        if reviews.exists():
+            serializer = ReviewSerializer(reviews, many=True)
+            return Response(serializer.data)
+        else:
+            message = "No reviews available for this product."
+            return Response({"message": message})
+
+    def post(self, request, product_id, format=None):
+        # Check if the product exists
+        product = get_object_or_404(Product, id=product_id)
+
+        # Assign the currently logged-in user as the reviewer
+        reviewer = request.user
+
+        # Add the product_id to the serializer's context
+        serializer = ReviewSerializer(
+            data=request.data, context={"product_id": product_id}
+        )
+        if serializer.is_valid():
+            serializer.save(product=product, reviewer=reviewer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

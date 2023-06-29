@@ -13,7 +13,7 @@ from drf_spectacular.utils import extend_schema
     tags=["Cart"],
 )
 class CartView(APIView):
-    # permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
+    permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
 
     def get(self, request):
         try:
@@ -41,12 +41,12 @@ class CartView(APIView):
 class CartItemView(APIView):
     permission_classes = [IsAuthenticated, IsBuyerRoleOnly]
 
-    def post(self, request):
+    def post(self, request, product_id):
         try:
             cart = Cart.objects.get(user=request.user)
         except Cart.DoesNotExist:
             cart = Cart.objects.create(user=request.user)
-        product_id = request.data.get("product_id")
+        # product_id = request.data.get("product_id")
         quantity = request.data.get("quantity", 1)
 
         try:
@@ -57,8 +57,10 @@ class CartItemView(APIView):
         # Check if the product is already in the cart
         existing_item = CartItem.objects.filter(cart=cart, product=product).first()
         if existing_item:
-            existing_item.quantity += int(quantity)
-            existing_item.save()
+            return Response({"message": "Product already exists in the cart."})
+        # if existing_item:
+        #     existing_item.quantity += int(quantity)
+        #     existing_item.save()
         else:
             CartItem.objects.create(cart=cart, product=product, quantity=quantity)
 

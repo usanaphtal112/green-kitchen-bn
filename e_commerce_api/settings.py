@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "shops.apps.ShopsConfig",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
+    "payment.apps.PaymentConfig",
     # third party apps
     "corsheaders",
     "rest_framework",
@@ -175,9 +176,13 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+SITE_URL = "http://localhost:3000/"
+API_URL = "http://localhost:8000/"
 
 
 # CSRF_TRUSTED_ORIGIN = ["http://localhost:3000"]
@@ -191,9 +196,8 @@ cloudinary.config(
 )
 
 
-# CART_SESSION_ID = "cart"
-
-# # settings.py
-# SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-# SESSION_COOKIE_HTTPONLY = True
-# SESSION_SAVE_EVERY_REQUEST = True
+# Stripe settings
+STRIPE_PUBLISHABLE_KEY = env.str("STRIPE_PUBLISHABLE_KEY")  # Publishable key
+STRIPE_SECRET_KEY = env.str("STRIPE_SECRET_KEY")  # Secret key
+STRIPE_API_VERSION = "2022-11-15"
+STRIPE_SECRET_WEBHOOK = env.str("STRIPE_SECRET_WEBHOOK")
