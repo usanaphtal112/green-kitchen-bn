@@ -1,6 +1,7 @@
 /backend/.venv/
 /backend/.env
 /backend/.vscode/
+.vscode/
 /backend/__pycache__/
 /backend/db.sqlite3
 
