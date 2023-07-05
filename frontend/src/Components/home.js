@@ -3,27 +3,13 @@ import "../Styles/main.css";
 import homeImages from "../images/personal_veg.png";
 import homevegetableImages from "../images/veg_1.png";
 import homepersonalvegImage from "../images/personal_vegetar.png";
+import ShowProducts from "./Products/ShowProducts";
 function HomePage() {
   const productImages = [
     "image1.jpg",
     "image2.jpg",
     "image3.jpg",
     "image4.jpg",
-  ];
-
-  const productsList = [
-    { name: "Product 1", price: "$10.99", image: "product1.jpg" },
-    { name: "Product 2", price: "$8.99", image: "product2.jpg" },
-    { name: "Product 3", price: "$12.99", image: "product3.jpg" },
-    { name: "Product 4", price: "$9.99", image: "product4.jpg" },
-    { name: "Product 1", price: "$10.99", image: "product1.jpg" },
-    { name: "Product 2", price: "$8.99", image: "product2.jpg" },
-    { name: "Product 3", price: "$12.99", image: "product3.jpg" },
-    { name: "Product 4", price: "$9.99", image: "product4.jpg" },
-    { name: "Product 1", price: "$10.99", image: "product1.jpg" },
-    { name: "Product 2", price: "$8.99", image: "product2.jpg" },
-    { name: "Product 3", price: "$12.99", image: "product3.jpg" },
-    { name: "Product 4", price: "$9.99", image: "product4.jpg" },
   ];
   return (
     <div className="main-container">
@@ -62,15 +48,7 @@ function HomePage() {
         <p className="section-sentence">
           Checkout our fresh and seasonal vegetables from our local farmers.
         </p>
-        <div className="product-grid">
-          {productsList.map((product, index) => (
-            <div className="product-item" key={index}>
-              <img src={product.image} alt="Product" />
-              <h3 className="product-name">{product.name}</h3>
-              <p className="product-price">{product.price}</p>
-            </div>
-          ))}
-        </div>
+        <ShowProducts />
       </div>
 
       <div className="box-container">

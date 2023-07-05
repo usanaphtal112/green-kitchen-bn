@@ -11,6 +11,7 @@ from .serializers import (
     ProductWriteSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from .permissions import IsSellerOrReadOnly, IsAdminRole
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from drf_spectacular.utils import extend_schema
@@ -23,6 +24,7 @@ from drf_spectacular.utils import extend_schema
 class ProductAPIView(generics.ListCreateAPIView):
     permission_classes = [IsSellerOrReadOnly]
     serializer_class = ProductWriteSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_serializer_class(self):
         if self.request.method == "GET":

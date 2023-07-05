@@ -19,13 +19,18 @@ class Category(models.Model):
         return self.name
 
 
+# lets us explicitly set upload path and filename
+def upload_to(instance, filename):
+    return "images/{filename}".format(filename=filename)
+
+
 class Product(models.Model):
     category = models.ForeignKey(
         Category, related_name="products", on_delete=models.CASCADE
     )
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
-    image = models.ImageField(upload_to="products/%Y/%m/%d", blank=True)
+    image = models.ImageField(upload_to=upload_to, blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)

@@ -47,6 +47,7 @@ class ProductReadSerializer(serializers.ModelSerializer):
 class ProductWriteSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = Product
@@ -57,9 +58,9 @@ class ProductWriteSerializer(serializers.ModelSerializer):
         validated_data["slug"] = slugify(name)
 
         image = validated_data.pop("image", None)
-        if image:
-            result = uploader.upload(image)
-            validated_data["image"] = result["secure_url"]
+        # if image:
+        #     result = uploader.upload(image)
+        #     validated_data["image"] = result["secure_url"]
 
         instance = super().create(validated_data)
         return instance
@@ -72,6 +73,7 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
         lookup_field="slug",
         lookup_url_kwarg="slug",
     )
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = Product
@@ -84,9 +86,9 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
             instance.slug = slugify(instance.name)
 
         image = validated_data.pop("image", None)
-        if image:
-            result = uploader.upload(image)
-            instance.image = result["secure_url"]
+        # if image:
+        #     result = uploader.upload(image)
+        #     instance.image = result["secure_url"]
 
         for attr, value in validated_data.items():
             if attr not in ["name", "slug", "image"]:

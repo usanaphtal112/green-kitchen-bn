@@ -1,0 +1,34 @@
+.product-card-info
+{
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    padding: 2px;
+}
+
+
+.image-row {
+    margin-bottom: 20px;
+  }
+  
+  .image-col {
+    padding: 20px;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  
+  .empty-col {
+    display: none; /* Hide empty columns on small screens */
+  }
+  
+  @media (min-width: 768px) {
+    .empty-col {
+      display: block; /* Show empty columns from medium screens and above */
+    }
+  }
+  

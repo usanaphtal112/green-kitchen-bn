@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef } from "react";
 import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
 import "../Styles/main.css";

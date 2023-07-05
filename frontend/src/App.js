@@ -1,22 +1,23 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/footer";
 import Home from "./Components/home";
+import ShowProducts from "./Components/Products/ShowProducts";
+import AddProduct from "./Components/Products/AddProduct";
 
 function App() {
   return (
     <div className="app-container">
-      <Navbar />
-      <React.Fragment>
-        <div className="navbar-shadow"></div>
-      </React.Fragment>
-
-      <React.Fragment>
-        <Home />
-      </React.Fragment>
-      <React.Fragment>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/product-list" element={<ShowProducts />} />
+          <Route path="/addProduct" element={<AddProduct />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
         <Footer />
-      </React.Fragment>
+      </Router>
     </div>
   );
 }
