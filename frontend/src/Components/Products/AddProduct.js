@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import AuthenticationContext from "../Users/Authentication"; // Import the authentication context
 
 const AddProduct = () => {
+  const { authTokens } = useContext(AuthenticationContext); // Get the authentication tokens from the context
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [price, setPrice] = useState("");
   const [available, setAvailable] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     fetchCategories();
@@ -17,7 +21,12 @@ const AddProduct = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/products/"
+        "http://localhost:8000/api/v1/categories/",
+        {
+          headers: {
+            Authorization: `Bearer ${authTokens.access}`,
+          },
+        }
       );
       setCategories(response.data);
     } catch (error) {
@@ -28,11 +37,13 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create form data to send the image file
     const formData = new FormData();
     formData.append("name", name);
     formData.append("category", category);
-    formData.append("image", image);
+    formData.append("description", description);
+    if (image && image.length > 0) {
+      formData.append("image", image[0]);
+    }
     formData.append("price", price);
     formData.append("available", available);
 
@@ -40,28 +51,32 @@ const AddProduct = () => {
       await axios.post("http://localhost:8000/api/v1/products/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authTokens.access}`,
         },
       });
 
-      // Clear form fields after successful submission
       setName("");
       setCategory("");
       setImage(null);
       setPrice("");
       setAvailable(true);
+      setDescription("");
 
-      // Optionally show a success message to the user
       alert("Product created successfully!");
     } catch (error) {
-      // Handle error, show error message, etc.
-      console.error(error);
+      if (error.response) {
+        setError(error.response.data.detail); // Set the error message from the server response
+      } else {
+        setError("An error occurred while creating the product."); // Set a generic error message
+      }
     }
   };
 
   return (
     <div>
       <h1>Add Product</h1>
-      <Form onSubmit={handleSubmit}>
+      {error && <div className="error-message">{error}</div>}
+      <Form onSubmit={handleSubmit} enctype="multipart/form-data">
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -81,19 +96,29 @@ const AddProduct = () => {
           >
             <option value="">Select a category</option>
             {/* Render the category options dynamically */}
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
+            {categories.map((categoryOption) => (
+              <option key={categoryOption.id} value={categoryOption.id}>
+                {categoryOption.name}
               </option>
             ))}
           </Form.Control>
         </Form.Group>
+        <Form.Group controlId="description">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            as="textarea"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Form.Group>
         <Form.Group controlId="image">
           <Form.Label>Image</Form.Label>
+
           <Form.Control
             type="file"
+            name="image"
             accept="image/jpeg, image/jpg, image/png"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => setImage(e.target.files)}
           />
         </Form.Group>
         <Form.Group controlId="price">

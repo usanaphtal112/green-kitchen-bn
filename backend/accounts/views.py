@@ -61,7 +61,12 @@ class LoginView(APIView):
         user = serializer.validated_data["user"]
         tokens = create_jwt_pair_for_user(user)
         response = Response(
-            data={"message": "Login Successful", "tokens": tokens},
+            data={
+                "message": "Login Successful",
+                "tokens": tokens,
+                "access": str(tokens["access"]),
+                "refresh": str(tokens["refresh"]),
+            },
             status=status.HTTP_200_OK,
         )
         response.set_cookie(

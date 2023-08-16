@@ -2,15 +2,10 @@ import React from "react";
 import "../Styles/main.css";
 import homeImages from "../images/personal_veg.png";
 import homevegetableImages from "../images/veg_1.png";
-import homepersonalvegImage from "../images/personal_vegetar.png";
+import homepersonalvegImage from "../images/front-view-smiley-woman-with-harvest.png";
 import ShowProducts from "./Products/ShowProducts";
-function HomePage() {
-  const productImages = [
-    "image1.jpg",
-    "image2.jpg",
-    "image3.jpg",
-    "image4.jpg",
-  ];
+import FeaturedProducts from "./Products/TopCategories";
+const HomePage = () => {
   return (
     <div className="main-container">
       <div className="box-container">
@@ -33,13 +28,9 @@ function HomePage() {
         </div>
       </div>
       <div className="top-categories">
-        <h2 className="top-categories-title">Top Categories</h2>
+        {/* <h2 className="top-categories-title">Top Categories</h2> */}
         <div className="category-boxes">
-          {productImages.map((image, index) => (
-            <div className="category-box" key={index}>
-              <img src={image} alt="Product" className="product-image" />
-            </div>
-          ))}
+          <FeaturedProducts />
         </div>
       </div>
 
@@ -88,6 +79,6 @@ function HomePage() {
       </div>
     </div>
   );
-}
+};
 
 export default HomePage;

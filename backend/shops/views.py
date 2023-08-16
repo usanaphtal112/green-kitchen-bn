@@ -63,7 +63,7 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminRole]
+    # permission_classes = [IsAdminRole]
 
 
 @extend_schema(
@@ -73,5 +73,5 @@ class CategoryListView(generics.ListCreateAPIView):
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminRole]
+    # permission_classes = [IsAdminRole]
     lookup_field = "slug"
