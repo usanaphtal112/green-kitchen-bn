@@ -41,6 +41,7 @@ class ProductReadSerializer(serializers.ModelSerializer):
             "image",
             "price",
             "available",
+            "created_by",
         ]
 
 

@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .guest_cart import Cart
-from .serializers import CartItemSerializer
+from .serializers import CartItemSerializer, GuestCartProductSerializer
 from django.conf import settings
 from shops.models import Product
 from .models import GuestOrder, GuestOrderItem
@@ -17,23 +17,45 @@ from drf_spectacular.utils import extend_schema
 class CartAPIView(APIView):
     def get(self, request):
         cart = Cart(request)
-        cart_items = cart.__iter__()
+        cart_items = list(cart)  # Convert the cart generator to a list
 
         # Calculate total price
         total_price = cart.get_total_price()
 
-        # Serialize cart items
-        serializer = CartItemSerializer(cart_items, many=True)
+        # Get the base URL
+        base_url = request.build_absolute_uri("/")
+
+        # Prepare serialized cart items
+        serialized_cart_items = []
+        for cart_item in cart_items:
+            product_data = cart_item["product"]
+            image_url = (
+                base_url[:-1] + product_data["image"]
+            )  # Construct full image URL
+            product_data["image"] = image_url  # Update the image URL
+            serialized_cart_item = {
+                "product": product_data,
+                "quantity": cart_item["quantity"],
+                "price": cart_item["price"],
+                "sub_total_price": cart_item["sub_total_price"],
+            }
+            serialized_cart_items.append(serialized_cart_item)
 
         # Include total price in the response
         data = {
-            "cart_items": serializer.data,
+            "cart_items": serialized_cart_items,
             "total_price": total_price,
         }
         return Response(data)
 
-    def post(self, request):
-        product_id = request.data.get("product_id")
+
+@extend_schema(
+    description="Items cart",
+    tags=["Guest User"],
+)
+class CartDetailsAPIViews(APIView):
+    def post(self, request, product_id):
+        # product_id = request.data.get("product_id")
         # print("Received product ID:", product_id)
         quantity = int(request.data.get("quantity", 1))
         override_quantity = bool(request.data.get("override_quantity", False))
@@ -46,8 +68,8 @@ class CartAPIView(APIView):
         except Product.DoesNotExist:
             return Response({"error": "Invalid product ID"}, status=400)
 
-    def delete(self, request):
-        product_id = request.data.get("product_id")
+    def delete(self, request, product_id):
+        # product_id = request.data.get("product_id")
 
         try:
             product = Product.objects.get(id=product_id)
@@ -57,8 +79,8 @@ class CartAPIView(APIView):
         except Product.DoesNotExist:
             return Response({"error": "Invalid product ID"}, status=400)
 
-    def patch(self, request):
-        product_id = request.data.get("product_id")
+    def patch(self, request, product_id):
+        # product_id = request.data.get("product_id")
         quantity = int(request.data.get("quantity"))
 
         try:
@@ -84,7 +106,6 @@ class PlaceOrderAPIView(APIView):
             # Fetch cart items from the session
             cart = Cart(request)
             cart_items = list(cart)
-            # print("cart_items: ", cart_items)
 
             if not cart_items:
                 return Response(

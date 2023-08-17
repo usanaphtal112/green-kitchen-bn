@@ -1,14 +1,13 @@
 from rest_framework import serializers
-from shops.models import Product
-from .models import GuestOrder, GuestOrderItem
 
 
-class ProductSerializer(serializers.ModelSerializer):
-    # image = serializers.ImageField(use_url=True)
-
-    class Meta:
-        model = Product
-        fields = ["id", "name", "price"]
+class GuestCartProductSerializer(serializers.Serializer):
+    id = serializers.IntegerField(source="product.id")
+    name = serializers.CharField(source="product.name")
+    price = serializers.DecimalField(
+        source="product.price", max_digits=8, decimal_places=2
+    )
+    image = serializers.ImageField(source="product.image")
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -17,7 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.Serializer):
-    product = ProductSerializer()
+    product = GuestCartProductSerializer()
     quantity = serializers.IntegerField()
     price = serializers.DecimalField(max_digits=8, decimal_places=2)
     sub_total_price = serializers.DecimalField(max_digits=8, decimal_places=2)

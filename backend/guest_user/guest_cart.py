@@ -53,6 +53,9 @@ class Cart:
             product_id = str(product.id)
             serializer = ProductSerializer(product)
             serialized_product = serializer.data
+            serialized_product["image"] = product.image.url
+            # image_url = self.request.build_absolute_uri(product.image.url)
+            # serialized_product["image"] = image_url
             cart[product_id]["product"] = serialized_product
             cart[product_id]["sub_total_price"] = (
                 Decimal(cart[product_id]["product"]["price"])
