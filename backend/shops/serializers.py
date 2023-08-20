@@ -32,6 +32,8 @@ class ProductReadSerializer(serializers.ModelSerializer):
         lookup_url_kwarg="slug",
     )
 
+    created_by = serializers.StringRelatedField()
+
     class Meta:
         model = Product
         fields = [
@@ -75,6 +77,7 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
         lookup_url_kwarg="slug",
     )
     image = serializers.ImageField(required=False)
+    created_by = serializers.StringRelatedField()
 
     class Meta:
         model = Product

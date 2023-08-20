@@ -27,7 +27,7 @@ function FeaturedProducts() {
     <div className="top-categories">
       {/* <h2 className="top-categories-title">Top Categories</h2> */}
       <h2 className="mb-4">Featured Categories</h2>
-      <div className="featured-products container">
+      <div className="featured-products-container">
         <div className="row">
           {featuredProducts.map((product) => (
             <div key={product.id} className="col-md-3 mb-3">

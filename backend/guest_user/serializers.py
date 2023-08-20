@@ -8,6 +8,7 @@ class GuestCartProductSerializer(serializers.Serializer):
         source="product.price", max_digits=8, decimal_places=2
     )
     image = serializers.ImageField(source="product.image")
+    created_by = serializers.StringRelatedField()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

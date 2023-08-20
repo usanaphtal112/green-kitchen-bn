@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Button } from "react-bootstrap";
-// import StarRatings from "react-star-rating";
+import { Card } from "react-bootstrap";
+import ReactStars from "react-rating-stars-component";
 import "./ProductList.css";
 
 const ShowProducts = () => {
@@ -18,6 +18,12 @@ const ShowProducts = () => {
     }
   };
 
+  const ProductStarRating = {
+    size: 30,
+    value: 4,
+    edit: false,
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -26,33 +32,25 @@ const ShowProducts = () => {
     <div className="product-list-container">
       {products.map((product) => (
         <Card key={product.id} className="product-card">
-          <Card.Img
-            variant="top"
-            src={product.image}
-            className="product-image"
-          />
+          <a href={`/products/${product.id}`}>
+            <Card.Img
+              variant="top"
+              src={product.image}
+              className="display-product-image"
+            />
+          </a>
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
             <div className="product-details">
               <div className="rating">
-                {/* <StarRatings
-                  rating={4} // Replace with actual rating
-                  starRatedColor="gold"
-                  numberOfStars={5}
-                  starDimension="20px"
-                  starSpacing="2px"
-                /> */}
+                <p>(4.0)</p>
+                <ReactStars {...ProductStarRating} />
               </div>
-              <div className="creator">
-                Created by: {product.creator}{" "}
-                {/* Replace with actual creator */}
-              </div>
+              <div className="creator">By {product.created_by}</div>
             </div>
             <div className="price-add-to-cart">
-              <Button variant="primary" className="add-to-cart">
-                Add to Cart
-              </Button>
-              <div className="price">{product.price}FRW</div>
+              <button className="add-to-cart-btn">Add to Cart</button>
+              <div className="price">{product.price} FRW</div>
             </div>
           </Card.Body>
         </Card>

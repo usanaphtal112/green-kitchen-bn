@@ -42,7 +42,7 @@ const Footer = () => {
               <a href="/#">Contact</a>
             </li>
             <li>
-              <a href="/#">Login</a>
+              <a href={`/login/`}>Login</a>
             </li>
           </ul>
         </div>

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { addToCart } from "../productUtilities";
+import axios from "axios";
+import "./ProductDetails.css";
+import avatarImage from "../../images/seller-avatar.png";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -9,11 +13,12 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `http://localhost:8000/api/v1/products/${id}/`
         );
-        if (response.ok) {
-          const data = await response.json();
+
+        if (response.status === 200) {
+          const data = response.data;
           setProduct(data);
         } else {
           throw new Error("Failed to fetch product details.");
@@ -30,43 +35,47 @@ const ProductDetails = () => {
     return <div>Loading...</div>;
   }
 
-  const addToCart = async () => {
-    try {
-      console.log("Adding product to cart:", product.id);
-      const response = await fetch("http://localhost:8000/api/v1/guest_cart/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          product_id: product.id,
-          // quantity: 1,
-        }),
-      });
-
-      if (response.ok) {
-        navigate("/guest-cart"); // Navigate to the cart page
-      } else {
-        throw new Error("Failed to add item to cart.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  const handleAddToCart = () => {
+    addToCart(product, navigate);
   };
 
   return (
-    <div>
-      <h2>Product Details</h2>
-      <img
-        src={product.image}
-        alt="Product"
-        style={{ width: "200px", height: "200px" }}
-      />
-      <p>Name: {product.name}</p>
-      <p>Description: {product.description}</p>
-      <p>Price: {product.price}</p>
-      <p>Available: {product.available ? "Yes" : "No"}</p>
-      <button onClick={addToCart}>Add to Cart</button>
+    <div className="product-details-container">
+      <div className="product-image">
+        <img src={product.image} alt="Product" />
+      </div>
+      <div className="product-details-box">
+        <ul>
+          <li key={product.id} className="Product-detail-list">
+            <p className="product-list-name">{product.name}</p>
+            <p className="product-list-description">{product.description}</p>
+            <div className="Product-price-details">
+              <p className="product-price">{product.price} FRW</p>
+              <p className="product-nickname">Umufungo 1</p>
+            </div>
+            <div className="cart-buy-buttons">
+              <button className="cart-btn" onClick={handleAddToCart}>
+                Add to Cart
+              </button>
+              <button className="buy-btn" onClick={handleAddToCart}>
+                Buy Now
+              </button>
+            </div>
+
+            <div className="seller-section">
+              <img
+                className="seller-avatar"
+                src={avatarImage}
+                alt="Seller Avatar"
+              />
+              <div className="seller-info">
+                <p className="seller-name">{product.created_by}</p>
+                <p className="seller-address">Nyagatare, Bugarama</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
