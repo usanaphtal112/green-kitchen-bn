@@ -34,10 +34,12 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    reviewer = serializers.StringRelatedField()
+
     class Meta:
         model = Review
-        fields = ["id", "date_created", "reviewer", "description"]
-        read_only_fields = ["reviewer"]
+        fields = ["id", "date_created", "reviewer", "reviews", "description"]
+        read_only_fields = ["reviewer", "date_created"]
 
     def create(self, validated_data):
         product_id = self.context["product_id"]

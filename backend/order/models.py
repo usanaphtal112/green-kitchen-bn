@@ -37,9 +37,12 @@ class Review(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
     )
+    reviews = models.PositiveSmallIntegerField(default=3)
     reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
-    description = models.TextField(default="description")
+    description = models.TextField(default="reviewed")
 
     def __str__(self):
-        return self.description
+        return "Product review is: {product_review}".format(
+            product_review=str(self.reviews)
+        )

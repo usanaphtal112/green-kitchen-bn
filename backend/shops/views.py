@@ -13,6 +13,7 @@ from .serializers import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from .permissions import IsSellerOrReadOnly, IsAdminRole
+from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from drf_spectacular.utils import extend_schema
 
@@ -53,7 +54,7 @@ class ProductAPIView(generics.ListCreateAPIView):
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailsSerializer
-    permission_classes = [IsSellerOrReadOnly]
+    permission_classes = [IsSellerOrReadOnly, IsAdminRole]
 
 
 @extend_schema(
@@ -75,3 +76,16 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     # permission_classes = [IsAdminRole]
     lookup_field = "slug"
+
+
+@extend_schema(
+    description="Retrieve Product based on their category",
+    tags=["Products"],
+)
+class ProductByCategoryListView(generics.ListAPIView):
+    serializer_class = ProductReadSerializer
+
+    def get_queryset(self):
+        category_slug = self.kwargs["category_slug"]
+        category = get_object_or_404(Category, slug=category_slug)
+        return Product.objects.filter(category=category)

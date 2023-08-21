@@ -4,6 +4,7 @@ from .views import (
     ProductDetailAPIView,
     CategoryListView,
     CategoryDetailView,
+    ProductByCategoryListView,
 )
 
 urlpatterns = [
@@ -14,5 +15,8 @@ urlpatterns = [
         "categories/<slug:slug>/",
         CategoryDetailView.as_view(),
         name="category-detail",
+    ),
+    path(
+        "products/category/<slug:category_slug>/", ProductByCategoryListView.as_view()
     ),
 ]

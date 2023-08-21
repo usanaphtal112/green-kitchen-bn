@@ -101,7 +101,7 @@ class OrderDetailsAPIView(APIView):
     tags=["Review"],
 )
 class ReviewAPIView(APIView):
-    permission_classes = [IsAuthenticated, IsProductBuyer]
+    # permission_classes = [IsAuthenticated, IsProductBuyer]
 
     def get(self, request, product_id, format=None):
         # Check if the product exists
