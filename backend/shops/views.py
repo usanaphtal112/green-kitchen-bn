@@ -54,7 +54,7 @@ class ProductAPIView(generics.ListCreateAPIView):
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailsSerializer
-    permission_classes = [IsSellerOrReadOnly, IsAdminRole]
+    permission_classes = [IsSellerOrReadOnly]
 
 
 @extend_schema(
@@ -89,3 +89,15 @@ class ProductByCategoryListView(generics.ListAPIView):
         category_slug = self.kwargs["category_slug"]
         category = get_object_or_404(Category, slug=category_slug)
         return Product.objects.filter(category=category)
+
+
+@extend_schema(
+    description="Retrieve Product based on their creator(Seller)",
+    tags=["Products"],
+)
+class ProductByUserListView(generics.ListAPIView):
+    serializer_class = ProductReadSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs["user_id"]
+        return Product.objects.filter(created_by=user_id)

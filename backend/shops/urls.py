@@ -5,6 +5,7 @@ from .views import (
     CategoryListView,
     CategoryDetailView,
     ProductByCategoryListView,
+    ProductByUserListView,
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path(
         "products/category/<slug:category_slug>/", ProductByCategoryListView.as_view()
     ),
+    path("products/users/<int:user_id>/", ProductByUserListView.as_view()),
 ]
