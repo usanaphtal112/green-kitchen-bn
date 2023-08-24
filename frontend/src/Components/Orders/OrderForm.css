@@ -1,0 +1,102 @@
+
+.place-order-form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  
+  
+  .order-detail-form-container {
+    /* border: 1px solid ; */
+    background-color:#f5f5f5;
+    width: 200px;
+    height: 400px;
+    flex: 1;
+    padding-right: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+  }
+  
+ 
+  .order-form-product-container {
+    flex: 1;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-left: 10px;
+    width: 200px;
+    height: 400px;
+  }
+  
+  .order-form-heading{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 80px;
+    border-radius: 8px;
+    background-color: rgb(14, 131, 3);
+  }
+
+  .order-form-heading h2{
+    text-align: center;
+    justify-content: center;
+    color: white;
+
+  }
+ 
+  .order-form-input {
+    margin: 5px 5px 5px 5px;
+    width: 100%;
+    height: 300px;
+    /* padding: 10px; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+  }
+  
+  /* .order-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+  } */
+  
+  /* .order-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+  } */
+  
+  /* .order-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  } */
+  
+  
+  /* .product-item {
+    margin-bottom: 10px;
+  } */
+  
+  
+  /* .product-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  } */
+  

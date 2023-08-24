@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from shops.models import Product
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Order(models.Model):
@@ -37,7 +38,9 @@ class Review(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
     )
-    reviews = models.PositiveSmallIntegerField(default=3)
+    reviews = models.PositiveSmallIntegerField(
+        default=3, validators=[MaxValueValidator(5), MinValueValidator(1)]
+    )
     reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(default="reviewed")

@@ -1,32 +1,52 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
+import { addToCart, fetchReviewsForProduct } from "../Utility/productUtilities";
 import "./ProductList.css";
 
 const ShowProducts = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  const fetchProductsAndReviews = async () => {
     try {
-      const response = await axios.get(
+      const productsResponse = await axios.get(
         "http://localhost:8000/api/v1/products/"
       );
-      setProducts(response.data);
+      const productsWithReviews = await Promise.all(
+        productsResponse.data.map(async (product) => {
+          const reviewsResponse = await fetchReviewsForProduct(product.id);
+          const averageRating = calculateAverageRating(reviewsResponse);
+          return { ...product, averageRating };
+        })
+      );
+      setProducts(productsWithReviews);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  const ProductStarRating = {
-    size: 30,
-    value: 4,
-    edit: false,
+  const calculateAverageRating = (reviews) => {
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+      return 3;
+    }
+
+    const totalReviews = reviews.reduce(
+      (sum, review) => sum + review.reviews,
+      0
+    );
+    return totalReviews / reviews.length;
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProductsAndReviews();
   }, []);
+
+  const handleAddToCart = (product) => {
+    addToCart(product, navigate);
+  };
 
   return (
     <div className="product-list-container">
@@ -43,13 +63,22 @@ const ShowProducts = () => {
             <Card.Title>{product.name}</Card.Title>
             <div className="product-details">
               <div className="rating">
-                <p>(4.0)</p>
-                <ReactStars {...ProductStarRating} />
+                <p>({product.averageRating.toFixed(1)})</p>
+                <ReactStars
+                  size={30}
+                  value={product.averageRating}
+                  edit={false}
+                />
               </div>
               <div className="creator">By {product.created_by}</div>
             </div>
             <div className="price-add-to-cart">
-              <button className="add-to-cart-btn">Add to Cart</button>
+              <button
+                className="add-to-cart-btn"
+                onClick={() => handleAddToCart(product)}
+              >
+                Add to Cart
+              </button>
               <div className="price">{product.price} FRW</div>
             </div>
           </Card.Body>
