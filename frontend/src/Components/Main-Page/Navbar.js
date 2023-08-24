@@ -3,7 +3,6 @@ import { useRef } from "react";
 import { FaBars, FaTimes, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../Styles/main.css";
-import logoImage from "../images/Logo.png";
 
 function Navbar() {
   const navRef = useRef();
@@ -46,7 +45,10 @@ function Navbar() {
     <div>
       <header>
         <div className="logo-container">
-          <img src={logoImage} alt="Logo" className="logo" />
+          <a href={"/"}>
+            {" "}
+            <img src="/images/Logo.png" alt="Logo" className="logo" />
+          </a>
           <form className="search-form">
             <div className="search-input">
               <input type="text" placeholder="Search" />
@@ -57,7 +59,7 @@ function Navbar() {
           </form>
         </div>
         <nav ref={navRef}>
-          <a href="/#">Home</a>
+          <a href="/">Home</a>
           <a href="/#">Events</a>
           <a href="/#">Green School</a>
           <a href="/#">About Us</a>

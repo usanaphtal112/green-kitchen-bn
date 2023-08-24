@@ -1,10 +1,8 @@
 import React from "react";
 import "../Styles/main.css";
-import homeImages from "../images/personal_veg.png";
-import homevegetableImages from "../images/veg_1.png";
-import homepersonalvegImage from "../images/front-view-smiley-woman-with-harvest.png";
-import ShowProducts from "./Products/ShowProducts";
-import FeaturedProducts from "./Products/TopCategories";
+import ShowProducts from "../Products/ShowProducts";
+import FeaturedProducts from "../Products/TopCategories";
+
 const HomePage = () => {
   return (
     <div className="main-container">
@@ -18,13 +16,13 @@ const HomePage = () => {
             fresh produce from our farmers.
           </p>
           <div className="box-link">
-            <a href="/#" className="box-link-btn">
+            <a href="/product-list/" className="box-link-btn">
               Shop Now
             </a>
           </div>
         </div>
         <div className="box-photo">
-          <img src={homeImages} alt="Carrot" />
+          <img src="/images/personal_veg.png" alt="Carrot" />
         </div>
       </div>
       <div className="top-categories">
@@ -50,19 +48,22 @@ const HomePage = () => {
             fresh produce from our farmers.
           </p>
           <div className="box-link">
-            <a href="/#" className="box-link-btn">
+            <a href="/product-list/" className="box-link-btn">
               Order Now
             </a>
           </div>
         </div>
         <div className="box-photo">
-          <img src={homevegetableImages} alt="Carrot" />
+          <img src="/images/veg_1.png" alt="Carrot" />
         </div>
       </div>
 
       <div className="third-featured-container">
         <div className="left-section">
-          <img src={homepersonalvegImage} alt="personal-veg" />
+          <img
+            src="/images/front-view-smiley-woman-with-harvest.png"
+            alt="personal-veg"
+          />
         </div>
         <div className="right-section">
           <h2 className="section-title">Why should you use our service</h2>

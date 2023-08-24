@@ -1,6 +1,5 @@
 import React from "react";
 import "../Styles/main.css";
-import logoImage from "../images/Logo.png";
 import { FaTwitter, FaInstagram, FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
@@ -9,7 +8,7 @@ const Footer = () => {
       <div className="footer-lists">
         <div className="footer-list">
           <div className="footer-logo">
-            <img src={logoImage} alt="Logo" className="logo-in-footer" />
+            <img src="/images/Logo.png" alt="Logo" className="logo-in-footer" />
             <div className="footer-text-container">
               <p className="footer-text">
                 Our platform connects you directly with local farmers. By

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-import AuthenticationContext from "../Users/Authentication"; // Import the authentication context
+import AuthenticationContext from "../Authentications/Authentication";
 
 const AddProduct = () => {
   const { authTokens } = useContext(AuthenticationContext); // Get the authentication tokens from the context
@@ -65,9 +65,9 @@ const AddProduct = () => {
       alert("Product created successfully!");
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.detail); // Set the error message from the server response
+        setError(error.response.data.detail);
       } else {
-        setError("An error occurred while creating the product."); // Set a generic error message
+        setError("An error occurred while creating the product.");
       }
     }
   };

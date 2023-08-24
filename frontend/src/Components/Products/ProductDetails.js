@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { addToCart } from "../productUtilities";
+import { addToCart } from "../Utility/productUtilities";
 import axios from "axios";
 import "./ProductDetails.css";
-import avatarImage from "../../images/seller-avatar.png";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -65,7 +64,7 @@ const ProductDetails = () => {
             <div className="seller-section">
               <img
                 className="seller-avatar"
-                src={avatarImage}
+                src="/images/seller-avatar.png"
                 alt="Seller Avatar"
               />
               <div className="seller-info">

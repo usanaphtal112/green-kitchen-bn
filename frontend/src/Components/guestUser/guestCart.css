@@ -112,21 +112,20 @@
   }
 
 
-/* Style for the cart summary container */
+
 .cart-summary {
   border: 1px solid #ccc;
   padding: 20px;
   margin: 0 auto;
   padding-left: 10px;
   width: 30%;
-  /* background-color: #f7f7f7; */
   background-color: #dfdfdf;
   display: flex;
   flex-direction: column;
 }
 
 
-/* Style for the section title */
+
 .section-title {
   text-align: center;
   margin-bottom: 80px;
@@ -134,25 +133,25 @@
   
 }
 
-/* Style for the detail rows */
+
 .detail-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-/* Style for the detail name */
+
 .detail-name {
   font-weight: bold;
 }
 
-/* Style for the bold total detail row */
+
 .bold-total {
   font-weight: bold;
   margin-top: 10px;
 }
 
-/* Style for the buy button */
+
 .cart-buy-button {
   background-color: #11a904;
   color: #fff;
@@ -164,7 +163,7 @@
   margin-top: 15px;
 }
 
-/* On hover, change button background color */
+
 .cart-buy-button:hover {
   background-color: #0c6502;
 }
