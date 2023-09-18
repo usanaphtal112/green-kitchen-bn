@@ -1,31 +1,31 @@
-/backend/.venv/
-/backend/.env
-/backend/.vscode/
+/e-commerce-backend/.venv/
+/e-commerce-backend/.env
+/e-commerce-backend/.vscode/
 .vscode/
-/backend/__pycache__/
-/backend/db.sqlite3
+/e-commerce-backend/__pycache__/
+/e-commerce-backend/db.sqlite3
 
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/frontend/node_modules/
-/frontend/.pnp/
-/frontend/.pnp.js
+/e-commerce-frontend/node_modules/
+/e-commerce-frontend/.pnp/
+/e-commerce-frontend/.pnp.js
 
 # testing
-/frontend/coverage/
+/e-commerce-frontend/coverage/
 
 # production
-/frontend/build/
+/e-commerce-frontend/build/
 
 # misc
-/frontend/.DS_Store
-/frontend/.env.local
-/frontend/.env.development.local
-/frontend/.env.test.local
-/frontend/.env.production.local
+/e-commerce-frontend/.DS_Store
+/e-commerce-frontend/.env.local
+/e-commerce-frontend/.env.development.local
+/e-commerce-frontend/.env.test.local
+/e-commerce-frontend/.env.production.local
 
-/frontend/npm-debug.log*
-/frontend/yarn-debug.log*
-/frontend/yarn-error.log*
+/e-commerce-frontend/npm-debug.log*
+/e-commerce-frontend/yarn-debug.log*
+/e-commerce-frontend/yarn-error.log*
