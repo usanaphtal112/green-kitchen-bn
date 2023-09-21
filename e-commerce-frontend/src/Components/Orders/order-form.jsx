@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import OrderSummary from "./OrderSummary";
+import { submitOrder, fetchCartItems } from "../Utility/productUtilities";
 import "./OrderForm.css";
 
 const OrderForm = () => {
@@ -13,6 +14,9 @@ const OrderForm = () => {
     payment_method: "MTN",
     message: "",
   });
+
+  const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const buttonStyles = {
     backgroundColor: "green",
@@ -37,13 +41,24 @@ const OrderForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/place-order/",
-        formData
-      );
-      console.log(response.data);
+      const response = await submitOrder(formData);
+      console.log(response);
     } catch (error) {
       console.error(error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    loadCartItems();
+  }, []);
+
+  const loadCartItems = async () => {
+    try {
+      const data = await fetchCartItems();
+      setCartItems(data.cart_items);
+      setTotalPrice(data.total_price);
+    } catch (error) {
+      setError("Error fetching cart items.");
     }
   };
 
@@ -143,7 +158,10 @@ const OrderForm = () => {
         </div>
         <div className="order-form-product-container">
           <h3>Order Summary</h3>
-          <div className="order-details-summary"></div>
+          <div className="order-details-summary">
+            {/* Use the OrderSummary component here */}
+            <OrderSummary cartItems={cartItems} totalPrice={totalPrice} />
+          </div>
         </div>
       </div>
     </div>

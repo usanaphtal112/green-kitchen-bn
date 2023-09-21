@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import {
+  fetchCartItems,
+  changeQuantity,
+  removeFromCart,
+} from "../Utility/productUtilities";
 import "./guestCart.css";
 
 function GuestCart() {
@@ -9,41 +13,39 @@ function GuestCart() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCartItems();
+    loadCartItems();
   }, []);
 
-  const fetchCartItems = async () => {
+  const loadCartItems = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/api/v1/guest_cart/"
-      );
-
-      // console.log(response.data.cart_items);
-      setCartItems(response.data.cart_items);
-      setTotalPrice(response.data.total_price);
+      const data = await fetchCartItems();
+      setCartItems(data.cart_items);
+      setTotalPrice(data.total_price);
     } catch (error) {
       setError("Error fetching cart items.");
     }
   };
 
-  const handleChangeQuantity = async (product_id, quantity) => {
+  const handleChangeQuantity = async (product_id, newQuantity) => {
     try {
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/guest_cart/${product_id}/`,
-        {
-          quantity,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      if (newQuantity === 0) {
+        // If the new quantity is zero, remove the item from the cart
+        const success = await removeFromCart(product_id);
 
-      if (response.status === 200) {
-        fetchCartItems();
+        if (success) {
+          loadCartItems();
+        } else {
+          setError("Error removing product from cart.");
+        }
       } else {
-        setError("Error changing product quantity.");
+        // If the new quantity is not zero, update the quantity
+        const success = await changeQuantity(product_id, newQuantity);
+
+        if (success) {
+          loadCartItems();
+        } else {
+          setError("Error changing product quantity.");
+        }
       }
     } catch (error) {
       setError("Error changing product quantity.");
@@ -52,17 +54,9 @@ function GuestCart() {
 
   const handleRemoveFromCart = async (product_id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/v1/guest_cart/${product_id}/`,
-        {
-          data: {
-            quantity: 0,
-          },
-        }
-      );
-
-      if (response.status === 204) {
-        fetchCartItems();
+      const success = await removeFromCart(product_id);
+      if (success) {
+        loadCartItems();
       } else {
         setError("Error removing product from cart.");
       }
