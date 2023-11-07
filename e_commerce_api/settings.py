@@ -211,7 +211,7 @@ SITE_URL = "http://localhost:5173/"
 API_URL = "http://localhost:8000/"
 
 
-# CSRF_TRUSTED_ORIGIN = ["http://localhost:3000"]
+CSRF_TRUSTED_ORIGIN = ["*"]
 
 
 # Set up Cloudinary configuration
