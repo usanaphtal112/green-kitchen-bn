@@ -94,7 +94,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "SIGNING_KEY": SECRET_KEY,
+    "SIGNING_KEY": env.str("SECRET_KEY"),
     "AUTH_HEADER_TYPES": ("Bearer",),
     # "Bearer <Token>"
 }
@@ -127,6 +127,8 @@ DATABASES = {
         "NAME": env.str("DATABASE_NAME"),
         "USER": env.str("DATABASE_USER"),
         "PASSWORD": env.str("DATABASE_PASSWORD"),
+        "PORT": env.str("DATABASE_PORT"),
+        "HOST": env.str("DATABASE_HOST"),
     }
 }
 
@@ -167,10 +169,11 @@ USE_TZ = True
 
 STATICFILES_DIRS = []
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Actual directory user files go to
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "mediafiles")
