@@ -36,12 +36,7 @@ urlpatterns = [
     path("api/v1/", include("guest_user.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
-        "api/schema/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
-    ),
-    path(
-        "api/v1/docs/",
+        "api/v1/api-docs/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
