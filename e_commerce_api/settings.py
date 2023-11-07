@@ -211,7 +211,7 @@ SITE_URL = "http://localhost:5173/"
 API_URL = "http://localhost:8000/"
 
 
-CSRF_TRUSTED_ORIGIN = ["*"]
+CSRF_TRUSTED_ORIGIN = ["https://greenkitchen.up.railway.app/"]
 
 
 # Set up Cloudinary configuration
