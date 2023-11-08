@@ -203,6 +203,12 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days in seconds
 CART_SESSION_ID = "cart"
 
 
+CORS_ALLOWED_ORIGINS = [
+    "https://greenkitchen.up.railway.app",
+    "http://localhost:5173",
+    "http://localhost:8000",
+    "http://localhost:3000",
+]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -211,7 +217,12 @@ SITE_URL = "http://localhost:5173/"
 API_URL = "http://localhost:8000/"
 
 
-CSRF_TRUSTED_ORIGIN = ["https://greenkitchen.up.railway.app/"]
+CSRF_TRUSTED_ORIGIN = [
+    "https://greenkitchen.up.railway.app",
+    "http://localhost:5173",
+    "http://localhost:8000",
+    "http://localhost:3000",
+]
 
 
 # Set up Cloudinary configuration
