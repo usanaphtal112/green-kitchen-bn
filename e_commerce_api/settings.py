@@ -121,9 +121,20 @@ WSGI_APPLICATION = "e_commerce_api.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env.str("DATABASE_NAME"),
+#         "USER": env.str("DATABASE_USER"),
+#         "PASSWORD": env.str("DATABASE_PASSWORD"),
+#         "PORT": env.str("DATABASE_PORT"),
+#         "HOST": env.str("DATABASE_HOST"),
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.mysql",
         "NAME": env.str("DATABASE_NAME"),
         "USER": env.str("DATABASE_USER"),
         "PASSWORD": env.str("DATABASE_PASSWORD"),
@@ -204,7 +215,7 @@ CART_SESSION_ID = "cart"
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://greenkitchen.up.railway.app",
+    "https://naphtal112.pythonanywhere.com",
     "http://localhost:5173",
     "http://localhost:8000",
     "http://localhost:3000",
@@ -218,7 +229,7 @@ API_URL = "http://localhost:8000/"
 
 
 CSRF_TRUSTED_ORIGIN = [
-    "https://greenkitchen.up.railway.app",
+    "https://naphtal112.pythonanywhere.com",
     "http://localhost:5173",
     "http://localhost:8000",
     "http://localhost:3000",
