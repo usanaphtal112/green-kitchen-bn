@@ -214,11 +214,11 @@ CART_SESSION_ID = "cart"
 
 
 CORS_ALLOWED_ORIGINS = [
-    ".pythonanywhere.com",
+    "https://naphtal112.pythonanywhere.com",
     "http://localhost:5173",
     "http://localhost:8000",
     "http://localhost:3000",
-    ".vercel.app",
+    "https://greenkitchen.vercel.app",
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
@@ -233,7 +233,7 @@ CSRF_TRUSTED_ORIGIN = [
     "http://localhost:5173",
     "http://localhost:8000",
     "http://localhost:3000",
-    ".vercel.app",
+    "https://greenkitchen.vercel.app",
 ]
 
 
