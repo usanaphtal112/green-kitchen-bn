@@ -35,7 +35,14 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 # DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    ".vercel.app",
+    ".pythonanywhere.com",
+    "now.sh",
+    "127.0.0.1",
+    "localhost",
+]
 
 
 # Application definition
@@ -121,27 +128,26 @@ WSGI_APPLICATION = "e_commerce_api.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": env.str("DATABASE_NAME"),
-#         "USER": env.str("DATABASE_USER"),
-#         "PASSWORD": env.str("DATABASE_PASSWORD"),
-#         "PORT": env.str("DATABASE_PORT"),
-#         "HOST": env.str("DATABASE_HOST"),
-#     }
-# }
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": env.str("DATABASE_NAME"),
-        "USER": env.str("DATABASE_USER"),
-        "PASSWORD": env.str("DATABASE_PASSWORD"),
-        "PORT": env.str("DATABASE_PORT"),
-        "HOST": env.str("DATABASE_HOST"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env.str("POSTGRES_DATABASE"),
+        "USER": env.str("POSTGRES_USER"),
+        "HOST": env.str("POSTGRES_HOST"),
+        "PASSWORD": env.str("POSTGRES_PASSWORD"),
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": env.str("MYSQL_DATABASE"),
+#         "USER": env.str("MYSQL_USER"),
+#         "PASSWORD": env.str("MYSQL_PASSWORD"),
+#         "PORT": env.str("MYSQL_PORT"),
+#         "HOST": env.str("MYSQL_HOST"),
+#     }
+# }
 
 
 # Password validation
@@ -178,19 +184,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATICFILES_DIRS = []
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# Actual directory user files go to
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "mediafiles")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
 
-# URL used to access the media
 MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -233,6 +232,7 @@ CSRF_TRUSTED_ORIGIN = [
     "http://localhost:5173",
     "http://localhost:8000",
     "http://localhost:3000",
+    ".v",
 ]
 
 
