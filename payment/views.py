@@ -81,6 +81,10 @@ class CreateCheckOutSession(APIView):
             )
 
 
+@extend_schema(
+    description="Stripe Guest Users checkout sessios",
+    tags=["Payment"],
+)
 class GuestCreateCheckoutSession(APIView):
     def post(self, request):
         # Fetch cart items from the session
@@ -143,6 +147,10 @@ class GuestCreateCheckoutSession(APIView):
         return redirect(checkout_session.url, code=303)
 
 
+@extend_schema(
+    description="Stripe WebHook Test",
+    tags=["Payment"],
+)
 class WebHook(APIView):
     def post(self, request):
         event = None
